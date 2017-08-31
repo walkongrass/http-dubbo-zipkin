@@ -48,6 +48,9 @@ public class DrpcClientInterceptor extends AbstracBaseDrpcInterceptor{
 
    
 	public Result invoke(Invoker<?> arg0, Invocation arg1) throws RpcException {
+		if(isPropNotSet) {
+			return arg0.invoke(arg1);
+		}
 		clientRequestInterceptor.handle(new GrpcClientRequestAdapter(arg1));
 		Map<String,String> att = arg1.getAttachments();
 		final Span currentClientSpan = clientSpanThreadBinder.getCurrentClientSpan();

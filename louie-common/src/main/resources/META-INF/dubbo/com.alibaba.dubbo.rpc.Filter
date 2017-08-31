@@ -1,0 +1,2 @@
+traceFilters=com.louie.common.dubbo.DrpcServerInterceptor
+traceFilterc=com.louie.common.dubbo.DrpcClientInterceptor
