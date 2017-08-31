@@ -9,7 +9,6 @@ import java.util.Map;
 
 import com.alibaba.dubbo.common.Constants;
 import com.alibaba.dubbo.common.extension.Activate;
-import com.alibaba.dubbo.rpc.Filter;
 import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.Result;
@@ -22,8 +21,6 @@ import com.github.kristofa.brave.ServerResponseAdapter;
 import com.github.kristofa.brave.ServerResponseInterceptor;
 import com.github.kristofa.brave.SpanId;
 import com.github.kristofa.brave.TraceData;
-import com.louie.common.config.ZipkinConfig;
-import com.louie.common.constant.ZipkinConstants;
 import com.louie.core.Service;
 
 import zipkin.reporter.AsyncReporter;
@@ -32,17 +29,15 @@ import zipkin.reporter.Sender;
 import zipkin.reporter.okhttp3.OkHttpSender;
 
 @Activate(group = Constants.PROVIDER)
-public class DrpcServerInterceptor implements Filter{
+public class DrpcServerInterceptor extends AbstracBaseDrpcInterceptor{
 	
     private final ServerRequestInterceptor serverRequestInterceptor;
     private final ServerResponseInterceptor serverResponseInterceptor;
     
 	public DrpcServerInterceptor() { 
-    	String sendUrl = ZipkinConfig.getProperty(ZipkinConstants.SEND_ADDRESS);
-    	Sender sender = OkHttpSender.create(sendUrl);
+    	Sender sender = OkHttpSender.create(SEND_ADDRESS);
     	Reporter<zipkin.Span> reporter = AsyncReporter.builder(sender).build();
-    	String application = ZipkinConfig.getProperty(ZipkinConstants.BRAVE_NAME);//RpcContext.getContext().getUrl().getParameter("application");
-    	Brave brave = new Brave.Builder(application).reporter(reporter).build();
+    	Brave brave = new Brave.Builder(BRAVE_NAME).reporter(reporter).build();
         this.serverRequestInterceptor = brave.serverRequestInterceptor();
         this.serverResponseInterceptor = brave.serverResponseInterceptor();
     }
