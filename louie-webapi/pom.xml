@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>louie</groupId>
   <artifactId>louie-webapi</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.0</version>
   <packaging>war</packaging>
 
   <name>louie-webapi</name>
@@ -14,7 +14,7 @@
 	<parent>
         <artifactId>http-dubbo-zipkin</artifactId>
         <groupId>louie</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     
   <properties>
@@ -36,7 +36,7 @@
     	<dependency>
 			<groupId>louie</groupId>
 			<artifactId>louie-common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
   </dependencies>
   <build>

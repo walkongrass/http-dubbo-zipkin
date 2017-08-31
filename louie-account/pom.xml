@@ -4,14 +4,14 @@
 	<groupId>louie</groupId>
 	<artifactId>louie-account</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>louie-account</name>
 	<url></url>
 	
 	<parent>
         <artifactId>http-dubbo-zipkin</artifactId>
         <groupId>louie</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
 	
 	<properties>
@@ -27,7 +27,7 @@
 		<dependency>
 			<groupId>louie</groupId>
 			<artifactId>louie-common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		 <dependency>
         <groupId>io.zipkin.brave</groupId>
