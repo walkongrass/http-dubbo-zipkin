@@ -2,6 +2,7 @@ package com.louie.common.dubbo;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.alibaba.dubbo.common.Constants;
@@ -73,9 +74,7 @@ public class DrpcClientInterceptor extends AbstracBaseDrpcInterceptor{
 
        
         public String getSpanName() {
-        	 Service ls = (Service) invocation.getArguments()[0];
-             String serviceName = ls == null || ls.getName() == null?"unkown":ls.getName();
-             return serviceName;
+             return invocation.getInvoker().getUrl().getServiceInterface();
         }
 
        
@@ -97,9 +96,14 @@ public class DrpcClientInterceptor extends AbstracBaseDrpcInterceptor{
 
        
         public Collection<KeyValueAnnotation> requestAnnotations() {
-        	Service ls = (Service) invocation.getArguments()[0];
-            Map data = ls.getData();
-            KeyValueAnnotation an = KeyValueAnnotation.create("params", JsonUtils.map2Json(data));
+        	Class params[] = invocation.getParameterTypes();
+        	HashMap<String, Object> data = new HashMap<String, Object>();
+        	int i = 0;
+        	for(Class clazz : params) {
+        		data.put(clazz.getName(), invocation.getArguments()[i]);
+        		i ++;
+        	}
+        	KeyValueAnnotation an = KeyValueAnnotation.create("params", JsonUtils.map2Json(data));
             return Collections.singletonList(an);
         }
        

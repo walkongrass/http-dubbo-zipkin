@@ -43,6 +43,9 @@ public class DrpcServerInterceptor extends AbstracBaseDrpcInterceptor{
     }
 
 	public Result invoke(Invoker<?> arg0, Invocation arg1) throws RpcException {
+		if(isPropNotSet) {
+			return arg0.invoke(arg1);
+		}
 		serverRequestInterceptor.handle(new DrpcServerRequestAdapter(arg1));
 		Result result ;
 		try {
@@ -88,9 +91,7 @@ public class DrpcServerInterceptor extends AbstracBaseDrpcInterceptor{
 
        
         public String getSpanName() {
-        	 Service ls = (Service) invocation.getArguments()[0];
-             String serviceName = ls == null || ls.getName() == null?"unkown":ls.getName();
-             return serviceName;
+        	return invocation.getInvoker().getUrl().getServiceInterface();
         }
 
         
