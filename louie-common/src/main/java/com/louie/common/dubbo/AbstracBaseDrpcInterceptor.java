@@ -3,6 +3,8 @@
  */
 package com.louie.common.dubbo;
 
+import org.apache.log4j.Logger;
+
 import com.alibaba.dubbo.rpc.Filter;
 import com.louie.common.constant.ZipkinConstants;
 import com.louie.utils.StringUtils;
@@ -14,6 +16,7 @@ import com.louie.utils.StringUtils;
  * 
  */
 public abstract class AbstracBaseDrpcInterceptor implements Filter {
+	private  final Logger logger = Logger.getLogger(this.getClass());
 	protected boolean isPropNotSet = true;
 	
 	protected final String BRAVE_NAME ;
@@ -24,6 +27,9 @@ public abstract class AbstracBaseDrpcInterceptor implements Filter {
 			BRAVE_NAME  = System.getProperty(ZipkinConstants.BRAVE_NAME);
 			SEND_ADDRESS = System.getProperty(ZipkinConstants.SEND_ADDRESS);
 			if(StringUtils.isNotBlank(BRAVE_NAME) || StringUtils.isNotBlank(SEND_ADDRESS) ) {
+				logger.warn("没有正确获取JVM属性配置，将不采集对应信息.如果需要，请使用java -D"
+						.concat(ZipkinConstants.BRAVE_NAME).concat("=应用名称 -D")
+						.concat(ZipkinConstants.SEND_ADDRESS).concat("=zipkin url"));
 				isPropNotSet = false;
 			}
 	}
