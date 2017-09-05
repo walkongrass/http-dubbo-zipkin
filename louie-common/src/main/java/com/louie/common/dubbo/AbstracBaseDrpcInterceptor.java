@@ -5,6 +5,7 @@ package com.louie.common.dubbo;
 
 import org.apache.log4j.Logger;
 
+import com.alibaba.dubbo.monitor.MonitorService;
 import com.alibaba.dubbo.rpc.Filter;
 import com.louie.common.constant.ZipkinConstants;
 import com.louie.utils.StringUtils;
@@ -22,6 +23,8 @@ public abstract class AbstracBaseDrpcInterceptor implements Filter {
 	protected final String BRAVE_NAME ;
 	
 	protected final String SEND_ADDRESS;
+	
+	protected final static String DUBBO_MONITOR_SERVICE = MonitorService.class.getName();
 	
 	public AbstracBaseDrpcInterceptor() {
 			BRAVE_NAME  = System.getProperty(ZipkinConstants.BRAVE_NAME);

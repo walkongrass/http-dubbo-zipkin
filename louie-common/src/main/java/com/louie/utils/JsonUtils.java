@@ -6,9 +6,8 @@ import java.util.SortedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.alibaba.fastjson.JSON;
+
 
 /**
  * JSON工具类
@@ -18,11 +17,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @SuppressWarnings("rawtypes")
 public abstract class JsonUtils {
 	private static final Logger logger = LoggerFactory.getLogger(JsonUtils.class);
-	private static final ObjectMapper objectMapper = new ObjectMapper();
-
-	static {
-		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-	}
 	
 	@SuppressWarnings("unchecked")
 	public static final Map<String, Object> jsonToMap(String jsonStr) {
@@ -37,7 +31,7 @@ public abstract class JsonUtils {
 		if(StringUtils.isBlank(jsonStr)) return null;
 		
 		try {
-			return objectMapper.readValue(jsonStr, Map.class);
+			return JSON.parseObject(jsonStr, Map.class);
 		} catch (Exception e) {
 			logger.error("Json转换异常", e);
 			return null;
@@ -49,7 +43,7 @@ public abstract class JsonUtils {
 		if(StringUtils.isBlank(jsonStr)) return null;
 		
 		try {
-			return objectMapper.readValue(jsonStr, SortedMap.class);
+			return JSON.parseObject(jsonStr, SortedMap.class);
 		} catch (Exception e) {
 			logger.error("Json转换异常", e);
 			return null;
@@ -62,10 +56,8 @@ public abstract class JsonUtils {
 		}
 		
 		try {
-			return objectMapper.writeValueAsString(obj);
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			return JSON.toJSONString(obj);
+		} catch (Exception e) {
 			logger.error("转换异常", e);
 			return "";
 		}
@@ -81,7 +73,7 @@ public abstract class JsonUtils {
 			return null;
 
 		try {
-			return objectMapper.readValue(content, valueType);
+			return JSON.parseObject(content,valueType);
 		} catch (Exception e) {
 			logger.error("Json转换异常", e);
 			return null;
@@ -90,8 +82,7 @@ public abstract class JsonUtils {
 	
 	public static final Map beanToMap(Object obj) {
 		try {
-			Map map = objectMapper.convertValue(obj, Map.class);
-			return map;
+			return json2Map(object2JSON(obj));
 		} catch (Exception e) {
 			logger.error("Json转换异常", e);
 			return null;

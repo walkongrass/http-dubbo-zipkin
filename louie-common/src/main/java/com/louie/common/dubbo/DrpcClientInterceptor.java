@@ -22,7 +22,6 @@ import com.github.kristofa.brave.KeyValueAnnotation;
 import com.github.kristofa.brave.SpanId;
 import com.github.kristofa.brave.internal.Nullable;
 import com.github.kristofa.brave.internal.Util;
-import com.louie.core.Service;
 import com.louie.utils.JsonUtils;
 import com.twitter.zipkin.gen.Span;
 
@@ -37,7 +36,7 @@ public class DrpcClientInterceptor extends AbstracBaseDrpcInterceptor{
     private final ClientRequestInterceptor clientRequestInterceptor;
     private final ClientResponseInterceptor clientResponseInterceptor;
     private final ClientSpanThreadBinder clientSpanThreadBinder;
-   
+    
     public DrpcClientInterceptor() {
     	Sender sender = OkHttpSender.create(SEND_ADDRESS);
     	Reporter<zipkin.Span> reporter = AsyncReporter.builder(sender).build();
@@ -49,7 +48,7 @@ public class DrpcClientInterceptor extends AbstracBaseDrpcInterceptor{
 
    
 	public Result invoke(Invoker<?> arg0, Invocation arg1) throws RpcException {
-		if(isPropNotSet) {
+		if(isPropNotSet || DUBBO_MONITOR_SERVICE.equalsIgnoreCase(arg0.getInterface().getName())) {
 			return arg0.invoke(arg1);
 		}
 		clientRequestInterceptor.handle(new GrpcClientRequestAdapter(arg1));
