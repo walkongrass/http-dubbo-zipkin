@@ -38,6 +38,12 @@ public class DrpcClientInterceptor extends AbstracBaseDrpcInterceptor{
     private final ClientSpanThreadBinder clientSpanThreadBinder;
     
     public DrpcClientInterceptor() {
+    	if(isPropNotSet) {
+    		clientRequestInterceptor =null;
+    		clientResponseInterceptor = null;
+    		clientSpanThreadBinder  = null;
+    		return ;
+    	}
     	Sender sender = OkHttpSender.create(SEND_ADDRESS);
     	Reporter<zipkin.Span> reporter = AsyncReporter.builder(sender).build();
     	Brave brave = new Brave.Builder(BRAVE_NAME).reporter(reporter).build();

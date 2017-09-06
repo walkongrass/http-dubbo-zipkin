@@ -35,6 +35,11 @@ public class DrpcServerInterceptor extends AbstracBaseDrpcInterceptor{
     private final ServerResponseInterceptor serverResponseInterceptor;
     
 	public DrpcServerInterceptor() { 
+		if(isPropNotSet) {
+			serverRequestInterceptor = null;
+			serverResponseInterceptor = null;
+			return;
+		}
     	Sender sender = OkHttpSender.create(SEND_ADDRESS);
     	Reporter<zipkin.Span> reporter = AsyncReporter.builder(sender).build();
     	Brave brave = new Brave.Builder(BRAVE_NAME).reporter(reporter).build();
