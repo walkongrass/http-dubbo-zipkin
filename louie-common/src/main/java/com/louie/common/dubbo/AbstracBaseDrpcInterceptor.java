@@ -36,7 +36,7 @@ public abstract class AbstracBaseDrpcInterceptor implements Filter {
 			}
 			else {
 				logger.info("Dubbo-Zipkin属性设置信息："
-						.concat(ZipkinConstants.BRAVE_NAME).concat(":").concat(BRAVE_NAME)
+						.concat(ZipkinConstants.BRAVE_NAME).concat("=").concat(BRAVE_NAME).concat(" ")
 						.concat(ZipkinConstants.SEND_ADDRESS).concat("=").concat(SEND_ADDRESS));
 				isPropNotSet = false;
 			}
