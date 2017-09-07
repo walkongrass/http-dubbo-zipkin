@@ -96,7 +96,7 @@ public class DrpcServerInterceptor extends AbstracBaseDrpcInterceptor{
 
        
         public String getSpanName() {
-        	return invocation.getInvoker().getUrl().getServiceInterface();
+            return invocation.getInvoker().getUrl().getServiceInterface().concat(".").concat(invocation.getMethodName()) ;
         }
 
         
