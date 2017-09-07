@@ -29,10 +29,15 @@ public abstract class AbstracBaseDrpcInterceptor implements Filter {
 	public AbstracBaseDrpcInterceptor() {
 			BRAVE_NAME  = System.getProperty(ZipkinConstants.BRAVE_NAME);
 			SEND_ADDRESS = System.getProperty(ZipkinConstants.SEND_ADDRESS);
-			if(StringUtils.isNotBlank(BRAVE_NAME) || StringUtils.isNotBlank(SEND_ADDRESS) ) {
+			if(StringUtils.isBlank(BRAVE_NAME) || StringUtils.isBlank(SEND_ADDRESS) ) {
 				logger.warn("没有正确获取JVM属性配置，将不采集对应信息.如果需要，请使用java -D"
 						.concat(ZipkinConstants.BRAVE_NAME).concat("=应用名称 -D")
 						.concat(ZipkinConstants.SEND_ADDRESS).concat("=zipkin url"));
+			}
+			else {
+				logger.info("Dubbo-Zipkin属性设置信息："
+						.concat(ZipkinConstants.BRAVE_NAME).concat(":").concat(BRAVE_NAME)
+						.concat(ZipkinConstants.SEND_ADDRESS).concat("=").concat(SEND_ADDRESS));
 				isPropNotSet = false;
 			}
 	}
